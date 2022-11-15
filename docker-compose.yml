@@ -1,0 +1,21 @@
+version: '3'
+services:
+  artalk:
+    environment:
+      PYTHONPATH: src/
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'artalk'
+    tty: true
+    volumes:
+      - .:/artalk/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: ['gpu']

@@ -1,0 +1,6 @@
+*.csv
+.env
+data/
+.DS_Store
+models/
+logs/
