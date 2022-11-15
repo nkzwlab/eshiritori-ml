@@ -13,5 +13,5 @@ model = nn.Sequential(
     nn.Flatten(),
     nn.Linear(2304, 512),
     nn.ReLU(),
-    nn.Linear(512, num_classes),
+    nn.Linear(512, 345), # output classes = 345
 )

@@ -8,10 +8,6 @@ import numpy as np
 import torch
 
 def get_quickdraw_class_names():
-    """
-    TODO - Check performance w/ gsutil in colab. The following command downloads all files to ./data
-    `gsutil cp gs://quickdraw_dataset/full/numpy_bitmap/* ./data`
-    """
     url = "https://raw.githubusercontent.com/googlecreativelab/quickdraw-dataset/master/categories.txt"
     r = requests.get(url)
     classes = [x.replace(' ', '_') for x in r.text.splitlines()]
@@ -54,13 +50,13 @@ def load_quickdraw_data(root="./data", max_items_per_class=5000):
 
 
 class QuickDrawDataset(torch.utils.data.Dataset):
-    def __init__(self, root, max_items_per_class=5000, class_limit=None):
+    def __init__(self, root, max_items_per_class=5000, class_limit=None, is_download=False):
         super().__init__()
         self.root = root
         self.max_items_per_class = max_items_per_class
         self.class_limit = class_limit
-
-        download_quickdraw_dataset(self.root, self.class_limit)
+        
+        if is_download: download_quickdraw_dataset(self.root, self.class_limit)
         self.X, self.Y, self.classes = load_quickdraw_data(self.root, self.max_items_per_class)
 
     def __getitem__(self, idx):
