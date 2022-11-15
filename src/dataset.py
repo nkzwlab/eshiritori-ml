@@ -38,7 +38,7 @@ def load_quickdraw_data(root="./data", max_items_per_class=5000):
 
     print(f"Loading {max_items_per_class} examples for each class from the Quickdraw Dataset...")
     for idx, file in enumerate(tqdm(sorted(all_files))):
-        data = np.load(file, mmap_mode='r')
+        data = np.load(file, mmap_mode='r+')
         data = data[0: max_items_per_class, :]
         labels = np.full(data.shape[0], idx)
         x = np.concatenate((x, data), axis=0)
@@ -87,6 +87,6 @@ if __name__ == '__main__':
     max_examples_per_class = 20000
     train_val_split_pct = .1
 
-    ds = QuickDrawDataset(data_dir, max_examples_per_class)
+    ds = QuickDrawDataset(data_dir, max_examples_per_class, is_download=True)
     num_classes = len(ds.classes)
     train_ds, val_ds = ds.split(train_val_split_pct)

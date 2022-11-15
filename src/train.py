@@ -4,9 +4,9 @@ from transformers import TrainingArguments
 from transformers import Trainer
 from transformers.modeling_utils import ModelOutput
 import wandb
-from src.model import model
-from src.eval import quickdraw_compute_metrics
-from src.dataset import QuickDrawDataset
+from model import model
+from eval import quickdraw_compute_metrics
+from dataset import QuickDrawDataset
 
 class QuickDrawTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
@@ -38,14 +38,13 @@ if __name__ == '__main__':
         output_dir=f'./outputs_20k_{timestamp}',
         evaluation_strategy='epoch',
         save_strategy='epoch',
-        report_to=['tensorboard'],  # Update to just tensorboard if not using wandb
         logging_strategy='steps',
         logging_steps=100,
         per_device_train_batch_size=256,
         per_device_eval_batch_size=256,
         learning_rate=0.003,
         fp16=torch.cuda.is_available(),
-        num_train_epochs=20,
+        num_train_epochs=2,
         warmup_steps=10000,
         save_total_limit=5,
     )
