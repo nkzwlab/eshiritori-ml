@@ -18,12 +18,11 @@ model = nn.Sequential(
 )
 
 class Net(nn.Module):
-    def __init__(self, num_classes=345):
-        super(Net, self).__init__()
-        
-        resnet = models.resnet34(pretrained=False)
-        
-        resnet.conv1 = nn.Conv2d(
+    def __init__(self, num_classes=345, pretrained=False):
+        super(Net, self).__init__()        
+        model = models.resnet34(pretrained=pretrained)
+
+        model.conv1 = nn.Conv2d(
             in_channels=1,
             out_channels=64,
             kernel_size=model.conv1.kernel_size,
@@ -32,19 +31,16 @@ class Net(nn.Module):
             bias=False
         )
         
-        resnet.fc = nn.Linear(512, num_classes)
+        model.fc = nn.Linear(
+            in_features=model.fc.in_features,
+            out_features=num_classes
+        )
         
-        self.resnet = resnet
+        self.resnet = model
         
     def forward(self, images):
-        features = self.resnet(images)
-        # features = features.reshape(features.size(0), -1)
-        outputs = self.linear(features)
-
-        return outputs
+        return self.resnet(images)
     
 if __name__ == '__main__':
-    print(models.resnet34(pretrained=False))
-    
     net = Net()
     print(net)
