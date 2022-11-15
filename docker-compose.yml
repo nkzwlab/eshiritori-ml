@@ -1,6 +1,6 @@
 version: '3'
 services:
-  artalk:
+  eshiritori-ml:
     environment:
       PYTHONPATH: src/
     env_file:
@@ -8,10 +8,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: 'artalk'
+    container_name: 'eshiritori-ml'
     tty: true
     volumes:
-      - .:/artalk/
+      - .:/eshiritori-ml/
     deploy:
       resources:
         reservations:

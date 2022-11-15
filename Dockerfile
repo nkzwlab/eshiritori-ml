@@ -1,8 +1,8 @@
 FROM python:3.9
 
-RUN mkdir /artalk
-COPY . /artalk/
-WORKDIR /artalk/
+RUN mkdir /eshiritori-ml
+COPY . /eshiritori-ml/
+WORKDIR /eshiritori-ml/
 
 RUN apt-get update
 RUN apt-get -y install locales && \

@@ -9,4 +9,6 @@ nltk
 tqdm
 torchinfo
 torchtext==0.13.0
-slackclient
+quickdraw
+transformers
+wandb
