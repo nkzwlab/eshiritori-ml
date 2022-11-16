@@ -1,5 +1,5 @@
 import shutil
 
 if __name__ == '__main__':
-    filename = '.quickdrawcache'
+    filename = 'data/'#'.quickdrawcache'
     shutil.rmtree(filename)

@@ -4,6 +4,8 @@ from train import train_loop
 from eval import eval_loop
 from model import Net
 import torch.nn as nn
+from tqdm import tqdm
+import wandb
 
 if __name__ == '__main__':
     data_dir = './data'
@@ -11,10 +13,11 @@ if __name__ == '__main__':
     train_val_split_pct = .1
     lr = 0.01
     num_epochs = 10
-    batch_size = 128
+    batch_size = 4
     shuffle = True
     num_workers = 0
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
 
     ds = QuickDrawDataset(
         root=data_dir,
@@ -31,9 +34,19 @@ if __name__ == '__main__':
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=lr)
     
-    for epoch in range (1, num_epochs):
-        print('==========================')
-        print('epoch: ', epoch)
-        print('==========================')
-        train_loop(net, train_loader, device, criterion, optimizer)
-        eval_loop(net, val_loader, device, criterion)
+    wandb_config = dict(
+        project="orf_eshiritori",
+        group="wandb_test",
+        name="testrun"
+    )
+
+    with wandb.init(job_type="train",**wandb_config):
+
+        for epoch in tqdm(range(1, num_epochs)):
+            print('==========================')
+            print('epoch: ', epoch)
+            print('==========================')
+            loss = train_loop(net, train_loader, device, criterion, optimizer)
+            acc = eval_loop(net, val_loader, device, criterion)
+
+            wandb.log({"epoch":epoch,"loss":loss,"acc":acc})
