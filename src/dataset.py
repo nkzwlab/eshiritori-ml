@@ -68,19 +68,26 @@ class QuickDrawDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.X)
 
-    def collate_fn(self, batch):
-        x = torch.stack([item[0] for item in batch])
-        y = torch.LongTensor([item[1] for item in batch])
-        return {'pixel_values': x, 'labels': y}
-    
     def split(self, pct=0.1):
-        num_classes = len(self.classes)
         indices = torch.randperm(len(self)).tolist()
         n_val = math.floor(len(indices) * pct)
         train_ds = torch.utils.data.Subset(self, indices[:-n_val])
         val_ds = torch.utils.data.Subset(self, indices[-n_val:])
         return train_ds, val_ds
 
+def get_loader(dataset, batch_size, shuffle, num_workers):
+    return torch.utils.data.DataLoader(
+        dataset=dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=num_workers,
+        collate_fn=collate_fn,
+    )
+    
+def collate_fn(data):
+    x = torch.stack([item[0] for item in data])
+    y = torch.LongTensor([item[1] for item in data])
+    return x, y
 
 if __name__ == '__main__':
     data_dir = './data'
