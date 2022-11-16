@@ -1,5 +1,6 @@
 import torch
 from dataset import QuickDrawDataset, get_loader
+from tqdm import tqdm
 
 def train_loop(
     net,
@@ -8,9 +9,7 @@ def train_loop(
     criterion,
     optimizer,
 ):
-    print('***************************')
-    print('start train')
-    print('***************************')
+
     net.train()
 
     accum_loss = 0
@@ -24,7 +23,6 @@ def train_loop(
         accum_loss += loss.item()
         # print(loss)
 
-        
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()

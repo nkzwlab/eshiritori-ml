@@ -6,9 +6,9 @@ def eval_loop(
     device,
     criterion,
 ):
-    print('***************************')
-    print('start eval')
-    print('***************************')
+    # print('***************************')
+    # print('start eval')
+    # print('***************************')
     net.eval()
 
     correct = 0

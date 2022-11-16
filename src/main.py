@@ -2,18 +2,18 @@ import torch
 from dataset import QuickDrawDataset, get_loader
 from train import train_loop
 from eval import eval_loop
-from model import Net
+from model import Net,RN152
 import torch.nn as nn
 from tqdm import tqdm
 import wandb
 
 if __name__ == '__main__':
     data_dir = './data'
-    max_examples_per_class = 100
+    max_examples_per_class = 15000
     train_val_split_pct = .1
     lr = 0.01
     num_epochs = 10
-    batch_size = 4
+    batch_size = 128
     shuffle = True
     num_workers = 0
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -30,23 +30,23 @@ if __name__ == '__main__':
     train_loader = get_loader(train_ds, batch_size, shuffle, num_workers)
     val_loader = get_loader(val_ds, batch_size, shuffle, num_workers)
     
-    net = Net().to(device)
+    # net = Net().to(device)
+    net = RN152().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=lr)
     
     wandb_config = dict(
         project="orf_eshiritori",
         group="wandb_test",
-        name="testrun"
+        name="testrun with RN152"
     )
 
     with wandb.init(job_type="train",**wandb_config):
 
         for epoch in tqdm(range(1, num_epochs)):
-            print('==========================')
-            print('epoch: ', epoch)
-            print('==========================')
+
             loss = train_loop(net, train_loader, device, criterion, optimizer)
             acc = eval_loop(net, val_loader, device, criterion)
 
+            print(f"Epoch: {epoch}, Loss: {loss}, Accuracy: {acc}")
             wandb.log({"epoch":epoch,"loss":loss,"acc":acc})
