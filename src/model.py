@@ -8,14 +8,14 @@ class Net(nn.Module):
             model = models.resnet18(pretrained=pretrained)
         elif rn == "resnet34":
             model = models.resnet34(pretrained=pretrained)     
-        if rn == "resnet50":
+        elif rn == "resnet50":
             model = models.resnet50(pretrained=pretrained)
         elif rn == "resnet101":
             model = models.resnet101(pretrained=pretrained)
         elif rn == "resnet152":
             model = models.resnet152(pretrained=pretrained)        
         else:
-            raise ValueError("rn must be one of resnet50, resnet152, resnet18, resnet34, resnet101")
+            raise ValueError("rn must be one of resnet18, resnet34, resnet50, resnet152, resnet101")
 
         model.conv1 = nn.Conv2d(
             in_channels=1,
