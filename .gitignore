@@ -6,3 +6,7 @@ models/
 logs/
 wandb/
 src/__pycache__/
+weights/
+
+src/memo.py
+src/memo.ipynb

@@ -12,3 +12,4 @@ torchtext==0.13.0
 quickdraw
 transformers
 wandb
+gensim
