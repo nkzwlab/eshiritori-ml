@@ -2,7 +2,7 @@ import torch
 from dataset import QuickDrawDataset, get_loader
 from train import train_loop
 from eval import eval_loop
-from model import Net,RN152
+from model import Net
 import torch.nn as nn
 from tqdm import tqdm
 import wandb
@@ -30,8 +30,7 @@ if __name__ == '__main__':
     train_loader = get_loader(train_ds, batch_size, shuffle, num_workers)
     val_loader = get_loader(val_ds, batch_size, shuffle, num_workers)
     
-    # net = Net().to(device)
-    net = RN152().to(device)
+    net = Net(rn = "resnet50").to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=lr)
     
