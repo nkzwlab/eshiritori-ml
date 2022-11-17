@@ -60,8 +60,11 @@ class QuickDrawDataset(torch.utils.data.Dataset):
         self.X, self.Y, self.classes = load_quickdraw_data(self.root, self.max_items_per_class)
 
     def __getitem__(self, idx):
-        x = (self.X[idx] / 255.).astype(np.float32).reshape(1, 28, 28)
+        x = (self.X[idx] / 255.).astype(np.float32).reshape(1, 28, 28) 
         y = self.Y[idx]
+
+        # x = torch.from_numpy(x)
+        # y = y.item()
 
         return torch.from_numpy(x), y.item()
 
