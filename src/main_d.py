@@ -18,7 +18,7 @@ if __name__ == '__main__':
     which_student = "resnet50"
 
     data_dir = './data'
-    max_examples_per_class = 15000
+    max_examples_per_class = 1000#15000
     train_val_split_pct = .1
     lr = 0.01
     num_epochs = 50

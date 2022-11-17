@@ -11,13 +11,13 @@ from wandb import AlertLevel
 
 
 if __name__ == '__main__':
-    model_name = "resnet50"
+    model_name = "RN50_ver1_|_1000_per_class_|_3_epochs"
     which_resnet = "resnet50"
     data_dir = './data'
-    max_examples_per_class = 15000 #15000
+    max_examples_per_class = 1000#15000 #15000
     train_val_split_pct = .1
     lr = 0.01
-    num_epochs = 50
+    num_epochs = 3
     batch_size = 128
     shuffle = True
     num_workers = 0
@@ -46,8 +46,8 @@ if __name__ == '__main__':
     
     wandb_config = dict(
         project="orf_eshiritori",
-        group="main",
-        name="RN50 ver2 | 15000 per class | 50epochs"
+        group="test",
+        name="RN50 ver1 | 1000 per class | 3 epochs"
     )
 
     with wandb.init(job_type="train",**wandb_config):

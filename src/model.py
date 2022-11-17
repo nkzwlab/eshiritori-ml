@@ -20,11 +20,20 @@ class Net(nn.Module):
         model.conv1 = nn.Conv2d(
             in_channels=1,
             out_channels=64,
-            kernel_size=3,#model.conv1.kernel_size 7,7,
-            stride=1,#model.conv1.stride,
-            padding=2,#model.conv1.padding 3,3,
+            kernel_size=model.conv1.kernel_size, #7,7,
+            stride=model.conv1.stride,
+            padding=model.conv1.padding, #3,3,
             bias=False
         )
+        
+        # model.conv1 = nn.Conv2d(
+        #     in_channels=1,
+        #     out_channels=64,
+        #     kernel_size=3,#model.conv1.kernel_size 7,7,
+        #     stride=1,#model.conv1.stride,
+        #     padding=2,#model.conv1.padding 3,3,
+        #     bias=False
+        # )
         
         model.fc = nn.Linear(
             in_features=model.fc.in_features,
