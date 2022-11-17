@@ -16,6 +16,8 @@ def train_loop(
     
     for i, (images, labels) in enumerate(data_loader):
         # print(labels)
+        optimizer.zero_grad()
+        
         images, labels = images.to(device), labels.to(device)
         outputs = net.forward(images)
         
@@ -23,7 +25,7 @@ def train_loop(
         accum_loss += loss.item()
         # print(loss)
 
-        optimizer.zero_grad()
+        
         loss.backward()
         optimizer.step()
 
