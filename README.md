@@ -39,3 +39,18 @@ make run filename=src/ファイル名.py
 - 手書きのスケッチ 345 クラスから成る、合計5000万枚のデータセット
 - [クラス名一覧](https://github.com/googlecreativelab/quickdraw-dataset/blob/master/categories.txt)
 
+## 推論
+
+### ファイル構造の設定
+
+- ORF/eshitirtori
+    - weights
+        - [word2vec](https://drive.google.com/file/d/1ylxV7rWsSL1qDthTQeOiwZmgXyftDSbz/view?usp=sharing)
+            - model.vec
+        - [resnet50_best.pth](https://drive.google.com/file/d/1KS2eZnX6IMG4TqUayECx9C3nMWWq6lAR/view?usp=sharing)
+
+### 推論
+```
+python3 src/inference.py
+```
+
