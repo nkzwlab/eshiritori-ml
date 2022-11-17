@@ -31,7 +31,7 @@ def kanji_to_hiragana(word):
     conv = kakasi.getConverter()
     return conv.do(word)
 
-def get_label_name(index,language='en'):
+def get_label_name(index,language='ja'):
     if language == 'en':
         classes = [
     'aircraft carrier',
