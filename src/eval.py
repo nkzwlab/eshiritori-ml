@@ -17,7 +17,7 @@ from tqdm import tqdm
 import wandb
 from wandb import AlertLevel
 
-from torchmetrics import ConfusionMatrix
+# from torchmetrics import ConfusionMatrix
 
 def eval_loop(
     net,
