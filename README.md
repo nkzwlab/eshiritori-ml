@@ -2,6 +2,8 @@
 
 ORF絵しりとりで使うためのモデル。このレポジトリのコードでは絵を受け取って、書かれた絵に対して推論し、分類結果をクラス名で返す。
 
+※ 全体的に結構雑です。
+
 ## 環境設定
 
 ### 1.docker-composeのバージョン確認
@@ -39,11 +41,25 @@ make run filename=src/ファイル名.py
 - 手書きのスケッチ 345 クラスから成る、合計5000万枚のデータセット
 - [クラス名一覧](https://github.com/googlecreativelab/quickdraw-dataset/blob/master/categories.txt)
 
+## 学習
+
+### データセットのダウンロード
+```
+python3 src/dataset.py
+```
+
+### 学習
+- 細かいハイパラ等は全てファイルに直書きしてます。
+- wandbと連携しているので、wandbを使いたくない場合はwandbに関わる行を全てコメントアウトしてください
+```
+python3 src/main.py
+```
+
 ## 推論
 
 ### ファイル構造の設定
 
-- ORF/eshitirtori
+- ./
     - weights
         - [word2vec](https://drive.google.com/file/d/1ylxV7rWsSL1qDthTQeOiwZmgXyftDSbz/view?usp=sharing)
             - model.vec
