@@ -1,4 +1,5 @@
 import torch
+import torch.optim as optim
 from dataset import QuickDrawDataset, get_loader
 from train import train_loop
 from eval import eval_loop
@@ -13,10 +14,10 @@ if __name__ == '__main__':
     model_name = "resnet50"
     which_resnet = "resnet50"
     data_dir = './data'
-    max_examples_per_class = 15000
+    max_examples_per_class = 15000 #15000
     train_val_split_pct = .1
     lr = 0.01
-    num_epochs = 10
+    num_epochs = 50
     batch_size = 128
     shuffle = True
     num_workers = 0
@@ -34,20 +35,25 @@ if __name__ == '__main__':
     
     train_loader = get_loader(train_ds, batch_size, shuffle, num_workers)
     val_loader = get_loader(val_ds, batch_size, shuffle, num_workers)
+
+    # sample_images, sample_labels = next(iter(train_loader))
+    # print(sample_images.shape)
     
     net = Net(rn = which_resnet).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=lr)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs, last_epoch=-1)
     
     wandb_config = dict(
         project="orf_eshiritori",
         group="main",
-        name="RN50 | 15000 per class"
+        name="RN50 ver2 | 15000 per class | 50epochs"
     )
 
     with wandb.init(job_type="train",**wandb_config):
 
         print("starting training...")
+        best_val_acc = 0
 
         for epoch in tqdm(range(1, num_epochs)):
 
@@ -55,11 +61,15 @@ if __name__ == '__main__':
             acc = eval_loop(net, val_loader, device, criterion)
 
             print(f"Epoch: {epoch}, Loss: {loss}, Accuracy: {acc}")
-            wandb.log({"epoch":epoch,"loss":loss,"acc":acc})
+            wandb.log({"epoch":epoch,"loss":loss,"acc":acc,"lr":optimizer.param_groups[0]['lr']})
 
-            print("saving latest model...")
-            torch.save(net.state_dict(), f"weights/{model_name}_latest.pth")
-            print("done.")
+            if acc > best_val_acc:
+                best_val_acc = acc
+                print("saving model...")
+                torch.save(net.state_dict(), f"weights/{model_name}_best.pth")
+                print("done.")
+
+            scheduler.step()
 
         print("done.")
 

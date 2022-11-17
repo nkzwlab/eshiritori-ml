@@ -20,9 +20,9 @@ class Net(nn.Module):
         model.conv1 = nn.Conv2d(
             in_channels=1,
             out_channels=64,
-            kernel_size=model.conv1.kernel_size,
-            stride=model.conv1.stride,
-            padding=model.conv1.padding,
+            kernel_size=3,#model.conv1.kernel_size 7,7,
+            stride=1,#model.conv1.stride,
+            padding=2,#model.conv1.padding 3,3,
             bias=False
         )
         
@@ -39,3 +39,6 @@ class Net(nn.Module):
 if __name__ == '__main__':
     net = Net()
     print(net)
+    print(net.resnet.conv1.kernel_size)
+    print(net.resnet.conv1.stride)
+    print(net.resnet.conv1.padding)
