@@ -22,4 +22,5 @@ def plot_image_tensor(image_tensor):
     image_np = image_tensor.numpy()
     plt.imshow(image_np, interpolation='nearest')
     plt.show()
+    plt.savefig('test.png')
     

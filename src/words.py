@@ -11,6 +11,7 @@ def get_most_similar_word(start_letter, word, model=None,nearest_n=10, threshold
     """
     Get similar words to the given word.
     """
+    
     if model==None:
         print("loading word2vec model...")
         model = gensim.models.KeyedVectors.load_word2vec_format('./weights/word2vec/model.vec',binary=False)
@@ -25,7 +26,7 @@ def get_most_similar_word(start_letter, word, model=None,nearest_n=10, threshold
             break
         else:
             most_similar_word = "分かりません... ( > < )"
-        print(f"most similar word: {most_similar_word}")
+        # print(f"most similar word: {most_similar_word}")
 
     return most_similar_word
 
