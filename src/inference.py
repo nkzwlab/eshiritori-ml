@@ -21,10 +21,10 @@ if __name__ == '__main__':
     # print(models.resnet18())
     # print( Net(rn="resnet18"))
 
-    net = Net(rn="resnet152")
+    net = Net(rn="resnet50")
 
     print("loading model...")
-    net.load_state_dict(torch.load("./weights/resnet152_latest.pth"))
+    net.load_state_dict(torch.load("./weights/RN50_ver2_|_100_per_class_|_5_epochs_best.pth"))
     print("done.")
 
     base64_string = json.load(open("./src/base64.json"))["base64_text"]
@@ -44,7 +44,8 @@ if __name__ == '__main__':
 
     top_indice = indices[0]
     top_word = get_label_name(top_indice[0].item())
-
     
-    most_similar_word = get_most_similar_word("ラ",top_word)
+    print(f"top word: {top_word}")
+
+    most_similar_word = get_most_similar_word("ラ",top_word,nearest_n=15)
     print(most_similar_word)

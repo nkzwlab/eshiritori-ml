@@ -12,23 +12,28 @@ def get_most_similar_word(start_letter, word, model=None,nearest_n=10, threshold
     Get similar words to the given word.
     """
     if model==None:
-        model = gensim.models.KeyedVectors.load_word2vec_format('../weights/word2vec/model.vec',binary=False)
+        print("loading word2vec model...")
+        model = gensim.models.KeyedVectors.load_word2vec_format('./weights/word2vec/model.vec',binary=False)
+        print("done.")
 
     # return a list of tuples (word, similarity)
 
     for similar_word, similarity in model.most_similar(word, topn=nearest_n):
+        word = kanji_katakana_to_hiragana(word)
         if similar_word[0] == start_letter and similarity > threshold:
             most_similar_word = similar_word
             break
         else:
-            most_similar_word = "これはなんですかぁあ？？？"
+            most_similar_word = "分かりません... ( > < )"
+        print(f"most similar word: {most_similar_word}")
 
     return most_similar_word
 
-def kanji_to_hiragana(word):
-    kakasi = kakasi()
-    kakasi.setMode("J", "H")
-    conv = kakasi.getConverter()
+def kanji_katakana_to_hiragana(word):
+    kak = kakasi()
+    kak.setMode("J", "H")
+    kak.setMode("K", "H")
+    conv = kak.getConverter()
     return conv.do(word)
 
 def get_label_name(index,language='ja'):
