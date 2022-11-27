@@ -16,6 +16,7 @@ import torch.nn as nn
 from tqdm import tqdm
 import wandb
 from wandb import AlertLevel
+import torchvision.transforms as T
 
 # from torchmetrics import ConfusionMatrix
 
@@ -32,15 +33,22 @@ def eval_loop(
 
     correct = 0
     total = 0
-    confmat = ConfusionMatrix(num_classes=345)
+    # confmat = ConfusionMatrix(num_classes=345)
+    transform_size = T.Resize(28)
+
+    confusion_matrix = torch.zeros(345, 345)
 
     for i, (images, labels) in enumerate(data_loader):
         images, labels = images.to(device), labels.to(device)
+        images = transform_size(images)
         outputs = net.forward(images)
         
         loss = criterion(outputs, labels)
 
         _, predicted = torch.max(outputs.data, 1)
+
+        for t, p in zip(labels.view(-1), predicted.view(-1)):
+                confusion_matrix[t.long(), p.long()] += 1
 
         # print(predicted.dtype,labels.dtype)
         # confmat = confmat(predicted, labels)
@@ -52,6 +60,8 @@ def eval_loop(
 
     print(loss)
     print(f'Accuracy of the network on the test images: {acc:.2f}%')
+    print(confusion_matrix.diag()/confusion_matrix.sum(1))
+    del images, labels, outputs
     return acc #,confmat
 
 

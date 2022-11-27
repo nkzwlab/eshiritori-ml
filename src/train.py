@@ -14,9 +14,9 @@ def train_loop(
     net.train()
 
     accum_loss = 0
-    transform_size = T.Resize(224)
+    transform_size = T.Resize(28)
     
-    for i, (images, labels) in enumerate(data_loader):
+    for i, (images, labels) in enumerate(tqdm(data_loader)):
         # print(labels)
         optimizer.zero_grad()
         
